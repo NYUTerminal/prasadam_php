@@ -5,12 +5,12 @@ error_reporting(E_ALL);
     if(isset($_GET['action']) && $_GET['action']=="show_cart"){
         if(count($_SESSION['cart'])>0){
           // echo "string";
-          foreach($_SESSION['cart'] as $index_item) {
-            echo "id";
-            echo array_search($index_item, $_SESSION['cart']);;
-            echo "quantity";
-            echo $index_item;
-          }
+          // foreach($_SESSION['cart'] as $index_item) {
+          //   echo "id";
+          //   echo array_search($index_item, $_SESSION['cart']);;
+          //   echo "quantity";
+          //   echo $index_item;
+          // }
         }
         // else{
         //   require("config.php");
@@ -60,36 +60,51 @@ table, th, td {
       </div>
       <div id="white_canvas1">
           <table>
-            <th>
-              <td>
-                Item Name
-              </td>
-              <td>
-                Price
-              </td>
-              <td>
-                Description
-              </td>
-              <td>
-                Quantity
-              </td>
-            </th>
-            <?php 
-            foreach ($_SESSION['cart'] as $index_item): { 
-            $sql="SELECT id,item_id , item_name , item_description , no_available , price , item_image_name FROM items"; 
-            $fetch_query=mysqli_query($con,$sql);
-              if (mysqli_num_rows($fetch_query) > 0) {
-              $row=mysqli_fetch_assoc($fetch_query)
-
-              }
             <tr>
-
+              <th>
+                Item Name
+              </th>
+              <th>
+                Price
+              </th>
+              <th>
+                Description
+              </th>
+              <th>
+                Quantity
+              </th>
             </tr>
-              ?>
-              
-            <?php endforeach ?>
-           
-
+            <?php 
+            require("config.php");
+            $count=0;
+            foreach($_SESSION['cart'] as $item) { 
+            $count = $count+1;
+            $id = intval($item);
+            $sql="SELECT item_id , item_name , item_description , no_available , price , item_image_name FROM items where id ='$count'"; 
+            // echo $sql;
+            $fetch_query=mysqli_query($con,$sql);
+              if(mysqli_num_rows($fetch_query) > 0) {
+                $row=mysqli_fetch_assoc($fetch_query);
+                  ?>
+                      <tr>
+                        <td>
+                            <?php echo $row['item_name']?>
+                        </td>
+                        <td>
+                            <?php echo $row['price']?>
+                        </td>
+                        <td>
+                            <?php echo $row['item_description']?>
+                        </td>
+                        <td>
+                            <?php echo $item?>
+                        </td>
+                      </tr>
+                  <?php
+              }
+            }
+            mysqli_close($con);
+            ?>
           </table>
       </div>
 </div>

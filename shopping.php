@@ -5,26 +5,22 @@ ini_set('display_errors', 'On');
 error_reporting(E_ALL);
     if(isset($_GET['action']) && $_GET['action']=="add"){
         $id=intval($_GET['id']);
+        $quantity=intval($_GET["quantity".$id);
+        echo $quantity;
         if(isset($_SESSION['cart'])){
-          $_SESSION['cart'][$id]++;
-          echo "cart is set";
-          foreach ($_SESSION['cart'] as $items) {
-            echo $items;
-          }
+          $_SESSION['cart'][$id] = $_SESSION['cart'][$id] + intval($_GET['quantity']);
+          // echo "cart is set";
+          // foreach ($_SESSION['cart'] as $items) {
+          //    echo $items;
+          // }
         }else{
           $_SESSION['cart'] = [];
           require("config.php");
-          $_SESSION['cart'][$id]=1;
-          echo "adding first";
-          // $sql_fetch = "SELECT id,price FROM items WHERE id ='$id';";
-          // $_item_query = mysqli_query($con,$sql_fetch);
-          // if(mysqli_num_rows($_item_query) > 0){  
-              // $_results=mysqli_fetch_assoc($_item_query);
-          // $_SESSION['cart'][$id]=array(
-          //         "quantity" => 1,
-          //         // "price" => $_results['price']
-          //       );
-          }
+            if(isset($_GET['quantity']) && intval($_GET['quantity']) > 0){
+              $_SESSION['cart'][$id]=$_GET['quantity'];
+              echo "adding first";
+            }
+        }
     }else{
           $message="This product id it's invalid!";
     } 
@@ -60,9 +56,11 @@ table, th, td {
       <div id="white_canvas1">
       <table> 
             <tr> 
+               <th>Image</th> 
                 <th>Name</th> 
                 <th>Description</th> 
                 <th>Price</th> 
+                <th style="width:250px">Quantity</th> 
                 <th>Action</th> 
             </tr> 
           <?php
@@ -77,10 +75,21 @@ table, th, td {
                 </div>
                 <td>
                 <img class = "cart-image" src="images/<?php echo $image_name; ?>"/><br>
-                <?php echo $row['item_name'] ?><br>
-                <?php echo $row['item_description'] ?><br>
-                <?php echo $row['price'] ?>$<br>
-                <a href="shopping.php?action=add&id=<?php echo $row['id']?>">Add to cart</a>
+                </td>
+                <td>
+                  <?php echo $row['item_name'] ?><br>
+                </td>
+                <td>
+                  <?php echo $row['item_description'] ?><br>
+                </td>
+                <td>
+                  <?php echo $row['price'] ?>$<br>
+                </td>
+                <td>
+                  <input type="text" id="quantity<?php echo intval($row['id']);?>" name="quantity" value="0" style="width:200px"><br>
+                </td>
+                <td>
+                <a href="shopping.php?action=add&id=<?php echo $row['id']?>&quantity=document.getElementById('quantity<?php echo intval($row['id']);?>').value">Add to cart</a>
                 </td>
                 </div>
               </tr> 
