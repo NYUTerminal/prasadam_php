@@ -4,28 +4,30 @@ session_start();
 ini_set('display_errors', 'On');
 error_reporting(E_ALL);
     if(isset($_GET['action']) && $_GET['action']=="add"){
-    $id=intval($_GET['id']);
-    if(isset($_SESSION['cart'][$id])){
-      $_SESSION['cart'][$id]['quantity']++;
-      echo $_SESSION['cart'][$id]['quantity'];
-    }
-    else{
-      require("config.php");
-      $sql_fetch = "SELECT id , price FROM items WHERE id ='$id';";
-      $_item_query = mysqli_query($con,$sql_fetch);
-      if(mysqli_num_rows($_item_query) > 0){  
-          $_results=mysqli_fetch_assoc($_item_query);
-          $_SESSION['cart'][$_results['id']]=array(
-              "quantity" => 1,
-              "price" => $_results['price']
-            );
+        $id=intval($_GET['id']);
+        if(isset($_SESSION['cart'])){
+          $_SESSION['cart'][$id]++;
+          echo "cart is set";
+          foreach ($_SESSION['cart'] as $items) {
+            echo $items;
+          }
         }else{
+          $_SESSION['cart'] = [];
+          require("config.php");
+          $_SESSION['cart'][$id]=1;
+          echo "adding first";
+          // $sql_fetch = "SELECT id,price FROM items WHERE id ='$id';";
+          // $_item_query = mysqli_query($con,$sql_fetch);
+          // if(mysqli_num_rows($_item_query) > 0){  
+              // $_results=mysqli_fetch_assoc($_item_query);
+          // $_SESSION['cart'][$id]=array(
+          //         "quantity" => 1,
+          //         // "price" => $_results['price']
+          //       );
+          }
+    }else{
           $message="This product id it's invalid!";
-        } 
-      mysqli_close($con);
-      }
-  }
-// include_once("config.php");
+    } 
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
