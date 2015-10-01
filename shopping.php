@@ -3,35 +3,34 @@
 session_start();
 ini_set('display_errors', 'On');
 error_reporting(E_ALL);
-    if(isset($_GET['action']) && $_GET['action']=="add"){
-        $id=intval($_GET['id']);
-        $quantity=intval($_GET["quantity".$id);
-        echo $quantity;
-        if(isset($_SESSION['cart'])){
-          $_SESSION['cart'][$id] = $_SESSION['cart'][$id] + intval($_GET['quantity']);
-          // echo "cart is set";
-          // foreach ($_SESSION['cart'] as $items) {
-          //    echo $items;
-          // }
-        }else{
-          $_SESSION['cart'] = [];
-          require("config.php");
-            if(isset($_GET['quantity']) && intval($_GET['quantity']) > 0){
-              $_SESSION['cart'][$id]=$_GET['quantity'];
-              echo "adding first";
-            }
-        }
-    }else{
-          $message="This product id it's invalid!";
-    } 
+    if(isset($_POST['addtocart'])){
+      foreach($_POST['quantity'] as $key => $val) { 
+            //if quantity is zero then ignore the product.
+            echo "key".$key."<br>";
+            echo "value".$val."<br>";
+            if($val!=0){ 
+              if(isset($_SESSION['cart'])){
+                if($_SESSION['cart'][$key]>0){
+                  $_SESSION['cart'][$key] = $_SESSION['cart'][$key] + $val;
+                }else{
+                  $_SESSION['cart'][$key] =  $val;
+                }
+              }else{
+                $_SESSION['cart'] = [];
+                $_SESSION['cart'][$key]= $value;
+              }
+            } 
+        } 
+    }
+    for ($i=1; $i < count($_SESSION['cart']); $i++) { 
+      # Check Cart...
+       echo "Final key".$i."<br>";
+       echo "Final value ".$_SESSION['cart'][$i]."<br>";
+    }
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<!-- 
-    Template 2047 Brown Field
-    by www.tooplate.com 
--->
 <style type="text/css">
 table, th, td {
     border: 1px solid black;
@@ -45,6 +44,8 @@ table, th, td {
 
 </head>
 <body  style ='color: #585858'>
+
+<form method="post" action="shopping.php?page=add_to_cart">
 <div class="mainwrapper">
 <!-- <div class="dashboard"> -->
       <div class = "box">
@@ -86,10 +87,11 @@ table, th, td {
                   <?php echo $row['price'] ?>$<br>
                 </td>
                 <td>
-                  <input type="text" id="quantity<?php echo intval($row['id']);?>" name="quantity" value="0" style="width:200px"><br>
+                  <input type="text" name="quantity[<?php echo intval($row['id']);?>]" value="0" style="width:200px"><br>
                 </td>
                 <td>
-                <a href="shopping.php?action=add&id=<?php echo $row['id']?>&quantity=document.getElementById('quantity<?php echo intval($row['id']);?>').value">Add to cart</a>
+                <button type="submit" name="addtocart">Add to Cart</button>
+                <!-- <a href="shopping.php?action=add&id=<?php echo $row['id']?>&quantity<?php echo intval($row['id']);?>=document.getElementById('quantity<?php echo intval($row['id']);?>').value">Add to cart</a> -->
                 </td>
                 </div>
               </tr> 
@@ -101,7 +103,10 @@ table, th, td {
            <a href="shopping_cart.php?action=show_cart">GO TO CART</a>
         </table>
       </div>
-</div>
+    </div>
+
+</form>
+
 </body>
 
 
