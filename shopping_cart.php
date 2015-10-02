@@ -2,34 +2,20 @@
 session_start();
 ini_set('display_errors', 'On');
 error_reporting(E_ALL);
-    if(isset($_GET['action']) && $_GET['action']=="show_cart"){
-        if(count($_SESSION['cart'])>0){
-          // echo "string";
-          // foreach($_SESSION['cart'] as $index_item) {
-          //   echo "id";
-          //   echo array_search($index_item, $_SESSION['cart']);;
-          //   echo "quantity";
-          //   echo $index_item;
-          // }
-        }
-        // else{
-        //   require("config.php");
-        //   $sql_fetch = "SELECT id , price FROM items WHERE id ='$id';";
-        //   $_item_query = mysqli_query($con,$sql_fetch);
-        //   if(mysqli_num_rows($_item_query) > 0){  
-        //       $_results=mysqli_fetch_assoc($_item_query);
-        //       $_SESSION['cart'][$_results['id']]=array(
-        //           "quantity" => 1,
-        //           "price" => $_results['price']
-        //         );
-        //     }else{
-        //       $message="This product id it's invalid!";
-        //     }   
-        //   }
-  }
-  else{
-          echo "Shopping cart is empty. PLease Go to Products page to add products to shopping cart.";
-  } 
+    if(isset($_POST['delete_item'])){
+      echo $_POST['delete_item'];
+      foreach($_POST['quantity'] as $item) {
+        unset($_SESSION['cart'][$_POST['delete_item']]);
+      }
+    }
+    for ($i=1; $i < count($_SESSION['cart']); $i++) { 
+      # Check Cart...
+       echo "Final key".$i."<br>";
+       echo "Final value ".$_SESSION['cart'][$i]."<br>";
+    }
+  // else{
+  //         echo "Shopping cart is empty. PLease Go to Products page to add products to shopping cart.";
+  // } 
 
   // mysqli_close($con);
 ?>
@@ -50,7 +36,8 @@ table, th, td {
 
 </head>
 <body  style ='color: #585858'>
-<div class="mainwrapper">
+<form method="post" action="shopping_cart.php?page=update_cart">
+  <div class="mainwrapper">
 <!-- <div class="dashboard"> -->
       <div class = "box">
       <a href="home.html">Home</a>
@@ -61,6 +48,7 @@ table, th, td {
       <div id="white_canvas1">
           <table>
             <tr>
+              <th>Image</th>
               <th>
                 Item Name
               </th>
@@ -70,23 +58,25 @@ table, th, td {
               <th>
                 Description
               </th>
-              <th>
+              <th style="width:100px">
                 Quantity
               </th>
             </tr>
             <?php 
             require("config.php");
             $count=0;
-            foreach($_SESSION['cart'] as $item) { 
-            $count = $count+1;
-            $id = intval($item);
-            $sql="SELECT item_id , item_name , item_description , no_available , price , item_image_name FROM items where id ='$count'"; 
+
+            for ($item=1; $item < count($_SESSION['cart']) ; $item++) { 
+            $sql="SELECT item_id , item_name , item_description , no_available , price , item_image_name FROM items where id ='$item'"; 
             // echo $sql;
             $fetch_query=mysqli_query($con,$sql);
               if(mysqli_num_rows($fetch_query) > 0) {
                 $row=mysqli_fetch_assoc($fetch_query);
                   ?>
                       <tr>
+                        <td>
+                            <img class = "cart-image" src="images/<?php echo $row['item_image_name']; ?>"/><br>
+                        </td>
                         <td>
                             <?php echo $row['item_name']?>
                         </td>
@@ -97,7 +87,11 @@ table, th, td {
                             <?php echo $row['item_description']?>
                         </td>
                         <td>
-                            <?php echo $item?>
+                          <input type="text" name="quantity[<?php echo $item;?>]" value="<?php echo $_SESSION['cart'][$item]; ?>" style="width:75px"><br>
+                           <!--  <?php echo $_SESSION['cart'][$item]?> -->
+                        </td>
+                        <td>
+                           <button type="submit" name="delete_item" value = "<?php echo $item;?>">Delete Item</button>
                         </td>
                       </tr>
                   <?php
@@ -106,8 +100,10 @@ table, th, td {
             mysqli_close($con);
             ?>
           </table>
+          <button type="submit" name="update_cart">Update Cart</button>
       </div>
 </div>
+</form>
 </body>
 
 
