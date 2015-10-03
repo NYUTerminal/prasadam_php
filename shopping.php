@@ -3,30 +3,35 @@
 session_start();
 ini_set('display_errors', 'On');
 error_reporting(E_ALL);
+    
     if(isset($_POST['addtocart'])){
       foreach($_POST['quantity'] as $key => $val) { 
             //if quantity is zero then ignore the product.
-            echo "key".$key."<br>";
-            echo "value".$val."<br>";
+            // echo "key".$key."<br>";
+            // echo "value".$val."<br>";
             if($val!=0){ 
               if(isset($_SESSION['cart'])){
-                if($_SESSION['cart'][$key]>0){
+                if(isset($_SESSION['cart'][$key]) && $_SESSION['cart'][$key]>0){
                   $_SESSION['cart'][$key] = $_SESSION['cart'][$key] + $val;
                 }else{
                   $_SESSION['cart'][$key] =  $val;
                 }
               }else{
                 $_SESSION['cart'] = [];
-                $_SESSION['cart'][$key]= $value;
+                $_SESSION['cart'][$key]= $val;
               }
             } 
         } 
     }
-    for ($i=1; $i < count($_SESSION['cart']); $i++) { 
-      # Check Cart...
-       echo "Final key".$i."<br>";
-       echo "Final value ".$_SESSION['cart'][$i]."<br>";
-    }
+    var_dump($_SESSION['cart']);
+    // if(isset($_SESSION['cart'])){
+    //   for ($i=1; $i < count($_SESSION['cart']); $i++) { 
+    //   # Check Cart...
+    //    echo "Final key".$i."<br>";
+    //    echo "Final value ".$_SESSION['cart'][$i]."<br>";
+    //    }
+    // }
+
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
