@@ -80,7 +80,7 @@ table, th, td {
               <tr> 
                 </div>
                 <td>
-                <img class = "cart-image" src="images/<?php echo $image_name; ?>"/><br>
+                <img class = "cart-image" style ="width:100px;height:100px;" src="images/<?php echo $image_name; ?>"/><br>
                 </td>
                 <td>
                   <?php echo $row['item_name'] ?><br>

@@ -20,12 +20,12 @@ error_reporting(E_ALL);
     }
     if(isset($_SESSION['cart'])>0){
         var_dump($_SESSION['cart']);
-        echo "<br>Array Length".count($_SESSION['cart'])."<br>";
-        for ($i=1; $i < count($_SESSION['cart']); $i++) { 
-          # Check Cart...
-           echo "Final key".$i."<br>";
-           echo "Final value ".$_SESSION['cart'][$i]."<br>";
-        }
+        // echo "<br>Array Length".count($_SESSION['cart'])."<br>";
+        // for ($i=1; $i < count($_SESSION['cart']); $i++) { 
+        //   # Check Cart...
+        //    echo "Final key".$i."<br>";
+        //    echo "Final value ".$_SESSION['cart'][$i]."<br>";
+        // }
     }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -89,7 +89,7 @@ table, th, td {
                       ?>
                           <tr>
                             <td>
-                                <img class = "cart-image" src="images/<?php echo $row['item_image_name']; ?>"/><br>
+                                <img class = "cart-image" style ="width:75px;height:75px;" src="images/<?php echo $row['item_image_name']; ?>"/><br>
                             </td>
                             <td>
                                 <?php echo $row['item_name']?>
