@@ -102,9 +102,10 @@ table, th, td {
               </tr> 
             <?php 
             }
+          }
             mysqli_close($con);
-          }?>
-
+          ?>
+          
            <a href="shopping_cart.php?action=show_cart">GO TO CART</a>
         </table>
       </div>
