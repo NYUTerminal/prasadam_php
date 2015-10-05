@@ -92,42 +92,38 @@ table, th, td {
               </th>
             </tr>
             <?php 
-            require("config.php");
-            $count=0;
-            // if(isset($_sea))
-            echo "before cart starts";
-            // echo count($_SESSION['cart']);
-            // for ($item=0; $item < count($_SESSION['cart']) ; $item++) { 
             if(isset($_SESSION['cart'])){ 
+            require("config.php");
              $total_price = 0; 
               foreach($_SESSION['cart'] as $key => $val){  
                 echo "loop";
-                $sql="SELECT item_id , item_name , item_description , no_available , price , item_image_name FROM items where id ='$key'"; 
-                // echo $sql;
-                $fetch_query=mysqli_query($con,$sql);
-                  if(mysqli_num_rows($fetch_query) > 0) {
-                    $row=mysqli_fetch_assoc($fetch_query);
-                    $total_price = $total_price + intval($_SESSION['cart'][$key])*intval($row['price']);
+                $sql="SELECT item_name , item_description , no_available , price , item_image_name FROM items where id ='$key'"; 
+                if ($result = $mysqli->query($sql)) {
+                    $row = $result->fetch_row();
+                // $fetch_query=mysqli_query($con,$sql);
+                //   if(mysqli_num_rows($fetch_query) > 0) {
+                //     $row=mysqli_fetch_assoc($fetch_query);
+                    $total_price = $total_price + intval($_SESSION['cart'][$key])*intval($row[3]);
                       ?>
                           <tr>
                             <td>
-                                <img class = "cart-image" style ="width:75px;height:75px;" src="images/<?php echo $row['item_image_name']; ?>"/><br>
+                                <img class = "cart-image" style ="width:75px;height:75px;" src="images/<?php echo $row[4]; ?>"/><br>
                             </td>
                             <td>
-                                <?php echo $row['item_name']?>
+                                <?php echo $row[0]?>
                             </td>
                             <td>
-                                <?php echo $row['price']?>
+                                <?php echo $row[3]?>
                             </td>
                             <td>
-                                <?php echo $row['item_description']?>
+                                <?php echo $row[1]?>
                             </td>
                             <td>
                               <input type="text" name="quantity[<?php echo $key;?>]" value="<?php echo $_SESSION['cart'][$key]; ?>" style="width:75px"><br>
                                <!--  <?php echo $_SESSION['cart'][$item]?> -->
                             </td>
                              <td>
-                              <?php echo intval($_SESSION['cart'][$key])*intval($row['price']);?>
+                              <?php echo intval($_SESSION['cart'][$key])*intval($row[3]);?>
                             </td>
                             <td>
                                <button type="submit" name="delete_item" value = "<?php echo $key;?>">Delete Item</button>
@@ -136,14 +132,14 @@ table, th, td {
                       <?php
                   }
               }
+              $mysqli->close();
               ?>
               <tr>
                 <td>Total Price </td>
                 <td> <?php echo $total_price; ?></td>
               </tr>
-              <?php
+            <?php
             }
-            mysqli_close($con);
             ?>
           </table>
           <button type="submit" name="update_cart">Update Cart</button>

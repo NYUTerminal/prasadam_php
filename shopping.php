@@ -3,7 +3,6 @@
 session_start();
 ini_set('display_errors', 'On');
 error_reporting(E_ALL);
-    
     if(isset($_POST['addtocart'])){
       foreach($_POST['quantity'] as $key => $val) { 
             //if quantity is zero then ignore the product.
@@ -71,41 +70,44 @@ table, th, td {
             </tr> 
           <?php
             require("config.php");
-            $sql="SELECT id,item_id , item_name , item_description , no_available , price , item_image_name FROM items"; 
-            $fetch_query=mysqli_query($con,$sql);
-            if (mysqli_num_rows($fetch_query) > 0) {
-            while ($row=mysqli_fetch_assoc($fetch_query)){ 
-            $image_name = $row['item_image_name']
-            ?>
-              <tr> 
-                </div>
-                <td>
-                <img class = "cart-image" style ="width:100px;height:100px;" src="images/<?php echo $image_name; ?>"/><br>
-                </td>
-                <td>
-                  <?php echo $row['item_name'] ?><br>
-                </td>
-                <td>
-                  <?php echo $row['item_description'] ?><br>
-                </td>
-                <td>
-                  <?php echo $row['price'] ?>$<br>
-                </td>
-                <td>
-                  <input type="text" name="quantity[<?php echo intval($row['id']);?>]" value="0" style="width:200px"><br>
-                </td>
-                <td>
-                <button type="submit" name="addtocart">Add to Cart</button>
-                <!-- <a href="shopping.php?action=add&id=<?php echo $row['id']?>&quantity<?php echo intval($row['id']);?>=document.getElementById('quantity<?php echo intval($row['id']);?>').value">Add to cart</a> -->
-                </td>
-                </div>
-              </tr> 
-            <?php 
+            $sql="SELECT id, item_name , item_description , no_available , price , item_image_name FROM items"; 
+            if ($result = $mysqli->query($sql)) {
+                while($row = $result->fetch_row()){
+                  $image_name = $row[5];
+                ?>
+                      <tr> 
+                      </div>
+                      <td>
+                      <img class = "cart-image" style ="width:100px;height:100px;" src="images/<?php echo $image_name; ?>"/><br>
+                      </td>
+                      <td>
+                        <?php echo $row[1] ?><br>
+                      </td>
+                      <td>
+                        <?php echo $row[2] ?><br>
+                      </td>
+                      <td>
+                        <?php echo $row[4] ?>$<br>
+                      </td>
+                      <td>
+                        <input type="text" name="quantity[<?php echo intval($row[0]);?>]" value="0" style="width:200px"><br>
+                      </td>
+                      <td>
+                      <button type="submit" name="addtocart">Add to Cart</button>
+                      <!-- <a href="shopping.php?action=add&id=<?php echo $row['id']?>&quantity<?php echo intval($row['id']);?>=document.getElementById('quantity<?php echo intval($row['id']);?>').value">Add to cart</a> -->
+                      </td>
+                      </div>
+                      </tr> 
+                <?php
+                }
+                $result->close();
             }
-          }
-            mysqli_close($con);
+            ?>
+            <?php 
+          //   }
+          // }
+            $mysqli->close();
           ?>
-          
            <a href="shopping_cart.php?action=show_cart">GO TO CART</a>
         </table>
       </div>

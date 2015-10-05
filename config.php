@@ -5,32 +5,31 @@
 //                             'VAT' => 12, 
 //                             'Service Tax' => 5
 //                             );                     
- 	$server = "localhost"; 
+ 	// $server = "localhost"; 
+  //   $user = "praveen"; 
+  //   $pass = "prasadam123"; 
+  //   $db = "prasadam"; 
+  //   global $con;  
+  //   // connect to mysql 
+  //   $con = mysqli_connect($server,$user,$pass,$db);
+  //   // $con->autocommit(false);
+  //   if (mysqli_connect_errno())
+  //   {
+  //        echo "Failed to connect to MySQL: " . mysqli_connect_error();
+  //   }
+
+
+    // Object Oriented
+    $server = "localhost"; 
     $user = "praveen"; 
     $pass = "prasadam123"; 
     $db = "prasadam"; 
-    global $con;  
-    // connect to mysql 
-    $con = mysqli_connect($server,$user,$pass,$db);
-    // $con->autocommit(false);
-    if (mysqli_connect_errno())
-    {
-         echo "Failed to connect to MySQL: " . mysqli_connect_error();
+    global $mysqli; 
+    $mysqli = new mysqli($server,$user,$pass,$db);
+    /* check connection */
+    if ($mysqli->connect_errno) {
+        printf("Connect failed: %s\n", $mysqli->connect_error);
+        exit();
     }
-
-
-    //Object Oriented
-    // $server = "localhost"; 
-    // $user = "praveen"; 
-    // $pass = "prasadam123"; 
-    // $db = "prasadam"; 
-    // global $mysqli; 
-    // $mysqli = new mysqli("localhost", "my_user", "my_password", "world");
-
-    // /* check connection */
-    // if ($mysqli->connect_errno) {
-    //     printf("Connect failed: %s\n", $mysqli->connect_error);
-    //     exit();
-    // }
-      
+    $mysqli->autocommit(FALSE);
 ?>
