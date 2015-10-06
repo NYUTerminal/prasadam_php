@@ -31,5 +31,5 @@
         printf("Connect failed: %s\n", $mysqli->connect_error);
         exit();
     }
-    $mysqli->autocommit(FALSE);
+    // $mysqli->autocommit(FALSE);
 ?>

@@ -17,15 +17,16 @@ error_reporting(E_ALL);
             unset($_SESSION['cart'][$key]);
           }
       }
-    }
+    } 
     if(isset($_POST['checkout'])){
       if(isset($_SESSION['cart']) && count($_SESSION['cart'])>0){
-        echo "Proceeding to the checkout";
-        require("config.php");
-        foreach ($_SESSION['cart'] as $item) {
+        header('Location: order_process.php');
+        // echo "Proceeding to the checkout";
+        // require("config.php");
+        // foreach ($_SESSION['cart'] as $item) {
 
-        }
-        mysqli_close($con);
+        // }
+        // mysqli_close($con);
       }else{
         // echo "cart is empty";
         ?>
@@ -58,7 +59,7 @@ table, th, td {
     color: #585858;
 }
 </style>
-<title>Brown Field Template</title>
+<title>Shopping Cart</title>
 <meta name="keywords" content="" />
 <meta name="description" content="" />
 <link href="css/prasadam_style.css" rel="stylesheet" type="text/css" />
@@ -104,6 +105,7 @@ table, th, td {
                 //   if(mysqli_num_rows($fetch_query) > 0) {
                 //     $row=mysqli_fetch_assoc($fetch_query);
                     $total_price = $total_price + intval($_SESSION['cart'][$key])*intval($row[3]);
+                    $_SESSION['total_price'] = $total_price
                       ?>
                           <tr>
                             <td>

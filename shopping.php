@@ -41,7 +41,7 @@ table, th, td {
     color: #585858;
 }
 </style>
-<title>Brown Field Template</title>
+<title>Prasadam Products</title>
 <meta name="keywords" content="" />
 <meta name="description" content="" />
 <link href="css/prasadam_style.css" rel="stylesheet" type="text/css" />

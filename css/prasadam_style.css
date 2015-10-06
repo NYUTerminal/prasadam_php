@@ -297,45 +297,6 @@ p.text-headline{
   padding-top: 450px;
 }
 
-input[type="text"],textarea {
-  display: block;
-  margin: 0;
-  width: 65%;
-  font-family: 'my-light';
-  font-size: 18px;
-  appearance: none;
-  box-shadow: none;
-  border-radius: none;
-  position: absolute;
-}
-
-textarea {
-  width: 65%;
-  height: 80%;
-}
-
-input[type="text"]:focus {
-  outline: none;
-}
-
-textarea:focus {
-  outline: none;
-}
-
-.style-1 input[type="text"] ,textarea {
-  padding: 10px;
-  border: solid 1px #dcdcdc;
-  transition: box-shadow 0.3s, border 0.3s;
-}
-
-.style-1 input[type="text"]:focus,
-.style-1 input[type="text"].focus,
-.style-1 textarea:focus,
-.style-1 textarea.focus {
-  border: solid 1px #707070;
-  box-shadow: 0 0 5px 1px #969696;
-}
-
 .btn {
   -webkit-border-radius: 5;
   -moz-border-radius: 5;
