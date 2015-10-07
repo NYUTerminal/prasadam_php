@@ -5,9 +5,6 @@ error_reporting(E_ALL);
     if(isset($_POST['delete_item'])){
       echo "Deleted Item:".$_POST['delete_item']."<br>";
       unset($_SESSION['cart'][$_POST['delete_item']]);
-      // foreach($_POST['quantity'] as $item) {
-      //   unset($_SESSION['cart'][$_POST['delete_item']]);
-      // }
     }
     if(isset($_POST['update_cart'])){
       foreach($_POST['quantity'] as $key => $val) {
@@ -21,12 +18,6 @@ error_reporting(E_ALL);
     if(isset($_POST['checkout'])){
       if(isset($_SESSION['cart']) && count($_SESSION['cart'])>0){
         header('Location: order_process.php');
-        // echo "Proceeding to the checkout";
-        // require("config.php");
-        // foreach ($_SESSION['cart'] as $item) {
-
-        // }
-        // mysqli_close($con);
       }else{
         // echo "cart is empty";
         ?>
@@ -35,18 +26,9 @@ error_reporting(E_ALL);
         </script>
         <?php
       }
-
-
-
     }
     if(isset($_SESSION['cart'])>0){
         var_dump($_SESSION['cart']);
-        // echo "<br>Array Length".count($_SESSION['cart'])."<br>";
-        // for ($i=1; $i < count($_SESSION['cart']); $i++) { 
-        //   # Check Cart...
-        //    echo "Final key".$i."<br>";
-        //    echo "Final value ".$_SESSION['cart'][$i]."<br>";
-        // }
     }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -97,13 +79,9 @@ table, th, td {
             require("config.php");
              $total_price = 0; 
               foreach($_SESSION['cart'] as $key => $val){  
-                echo "loop";
                 $sql="SELECT item_name , item_description , no_available , price , item_image_name FROM items where id ='$key'"; 
                 if ($result = $mysqli->query($sql)) {
                     $row = $result->fetch_row();
-                // $fetch_query=mysqli_query($con,$sql);
-                //   if(mysqli_num_rows($fetch_query) > 0) {
-                //     $row=mysqli_fetch_assoc($fetch_query);
                     $total_price = $total_price + intval($_SESSION['cart'][$key])*intval($row[3]);
                     $_SESSION['total_price'] = $total_price
                       ?>

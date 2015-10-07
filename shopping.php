@@ -5,9 +5,6 @@ ini_set('display_errors', 'On');
 error_reporting(E_ALL);
     if(isset($_POST['addtocart'])){
       foreach($_POST['quantity'] as $key => $val) { 
-            //if quantity is zero then ignore the product.
-            // echo "key".$key."<br>";
-            // echo "value".$val."<br>";
             if($val!=0){ 
               if(isset($_SESSION['cart'])){
                 if(isset($_SESSION['cart'][$key]) && $_SESSION['cart'][$key]>0){
@@ -22,15 +19,9 @@ error_reporting(E_ALL);
             } 
         } 
     }
-    var_dump($_SESSION['cart']);
-    // if(isset($_SESSION['cart'])){
-    //   for ($i=1; $i < count($_SESSION['cart']); $i++) { 
-    //   # Check Cart...
-    //    echo "Final key".$i."<br>";
-    //    echo "Final value ".$_SESSION['cart'][$i]."<br>";
-    //    }
-    // }
-
+    if(isset($_SESSION['cart'])>0){
+      var_dump($_SESSION['cart']);
+    }
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -94,7 +85,6 @@ table, th, td {
                       </td>
                       <td>
                       <button type="submit" name="addtocart">Add to Cart</button>
-                      <!-- <a href="shopping.php?action=add&id=<?php echo $row['id']?>&quantity<?php echo intval($row['id']);?>=document.getElementById('quantity<?php echo intval($row['id']);?>').value">Add to cart</a> -->
                       </td>
                       </div>
                       </tr> 
@@ -102,10 +92,6 @@ table, th, td {
                 }
                 $result->close();
             }
-            ?>
-            <?php 
-          //   }
-          // }
             $mysqli->close();
           ?>
            <a href="shopping_cart.php?action=show_cart">GO TO CART</a>
