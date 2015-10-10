@@ -61,7 +61,7 @@ table, th, td {
             </tr> 
           <?php
             require("config.php");
-            $sql="SELECT id, item_name , item_description , no_available , price , item_image_name FROM items"; 
+            $sql="SELECT id, item_name , item_description , no_available , price , item_image_name FROM prasadam_items"; 
             if ($result = $mysqli->query($sql)) {
                 while($row = $result->fetch_row()){
                   $image_name = $row[5];

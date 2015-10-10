@@ -20,26 +20,30 @@ error_reporting(E_ALL);
           $insert_orders = "INSERT INTO prasadam_orders (order_date,total_price,payment_status) VALUES (now(),'$total_price','$pending')";
           $mysqli->query($insert_orders);
           $order_id = $mysqli->insert_id;
-          $fetch_items = "SELECT id , item_name , item_description , no_available , price FROM items where id IN ($item_ids)";
+          // /* Fetch Items */
+          $fetch_items = "SELECT id , item_name , item_description , no_available , price FROM prasadam_items where id IN ($item_ids)";
           $result = $mysqli->query($fetch_items);
           /* prasadam_orders_items */
           while($row = $result->fetch_row()){
             $quantity = $_SESSION['cart'][$row[0]];
             $insert_order_item = "INSERT INTO prasadam_order_items (order_id,item_id,item_description,price,quantity) values ('$order_id','$row[0]','$row[2]','$row[4]','$quantity')";
-            // echo $insert_order_item;
              $mysqli->query($insert_order_item);
           }
-           $mysqli->commit();
+          
           //shipping_details.
+          echo $_POST['fname'];
 
+          // $insert_shipping_details = "INSERT INTO shipping_details (order_id,fist_name,last_name,address_line1,address_line2,city,state,country,zip_code,phone) VALUES ('$_POST['fname']','$_POST['lname']','$_POST['addressline1']','$_POST['addressline2']','$_POST['city']','$_POST['state']','$_POST['countries']','$_POST['zip']','$_POST['phone']','$_POST['email']')";
+          // $mysqli->query($insert_shipping_details);
+          $mysqli->commit(); 
           //Payment.
 
 
           //Decrease number of items available.
-          unset($_SESSION['cart']);
-          unset($_SESSION['total_price']);
+          // unset($_SESSION['cart']);
+          // unset($_SESSION['total_price']);
           $mysqli->close();
-          header('Location: checkout.php');
+          // header('Location: checkout.php');
           exit;
       }else{
         ?>
@@ -53,6 +57,60 @@ error_reporting(E_ALL);
     //     var_dump($_SESSION['cart']);
     // }
 ?>
+
+<script>
+function validateShippingDetails(){
+   var frm = document.forms["myform"];
+}
+
+function validateFNameLName(var frm){
+
+   if(frm.pwd1.value != frm.pwd2.value)
+  {
+    sfm_show_error_msg('The Password and verified password does not match!',frm.pwd1);
+    return false;
+  }
+  else
+  {
+    return true;
+  } 
+}
+function validateAddress(var frm){
+   if(frm.pwd1.value != frm.pwd2.value)
+  {
+    sfm_show_error_msg('The Password and verified password does not match!',frm.pwd1);
+    return false;
+  }
+  else
+  {
+    return true;
+  } 
+}
+function validateEmail(var frm){
+   if(frm.pwd1.value != frm.pwd2.value)
+  {
+    sfm_show_error_msg('The Password and verified password does not match!',frm.pwd1);
+    return false;
+  }
+  else
+  {
+    return true;
+  } 
+}
+function validatePhone(var frm){
+   if(frm.pwd1.value != frm.pwd2.value)
+  {
+    sfm_show_error_msg('The Password and verified password does not match!',frm.pwd1);
+    return false;
+  }
+  else
+  {
+    return true;
+  } 
+}
+
+
+</script>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -71,8 +129,8 @@ table, th, td {
 </head>
 <body  style ='color: #585858'>
 <form method="post" action="order_process.php">
-  <div class="mainwrapper">
-<!-- <div class="dashboard"> -->
+<div class="mainwrapper">
+<div class="dashboard">
       <div class = "box">
       <a href="home.html">Home</a>
       </div>
@@ -92,10 +150,10 @@ table, th, td {
                <input type="text" name="addressline2" placeholder="address line 2"><br>
             </tr>
             <tr>
-               <input type="text" name="city" placeholder="City"><br>
+               <input type="text" name="city" placeholder="City*"><br>
             </tr>
             <tr>
-               <input type="text" name="State" placeholder="State"><br>
+               <input type="text" name="state" placeholder="State*"><br>
                 <select id="countries" name="countries">
                       <option value="AF">Afghanistan</option>
                       <option value="AX">Åland Islands</option>

@@ -79,7 +79,7 @@ table, th, td {
             require("config.php");
              $total_price = 0; 
               foreach($_SESSION['cart'] as $key => $val){  
-                $sql="SELECT item_name , item_description , no_available , price , item_image_name FROM items where id ='$key'"; 
+                $sql="SELECT item_name , item_description , no_available , price , item_image_name FROM prasadam_items where id ='$key'"; 
                 if ($result = $mysqli->query($sql)) {
                     $row = $result->fetch_row();
                     $total_price = $total_price + intval($_SESSION['cart'][$key])*intval($row[3]);
